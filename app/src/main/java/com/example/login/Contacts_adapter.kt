@@ -1,6 +1,7 @@
 package com.example.login
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,16 +23,8 @@ class Contacts_adapter(context: Context,
         var contacts = getItem(position)
         var tv1 = view?.findViewById<TextView>(R.id.textView1)
         tv1?.setText(contacts?.name)
-
-        // then according to the position of the view assign the desired TextView 2 for the same
-
-        // then according to the position of the view assign the desired TextView 2 for the same
-        var tv2 = view?.findViewById<TextView>(R.id.textView1)
-        tv2?.setText(contacts?.name)
-        return bindData(getItem(position), view as TextView)
-    }
-    private fun bindData(value: Contacts, view: TextView): TextView {
-        view.text = value.name
-        return view
+        var tv2 = view?.findViewById<TextView>(R.id.textView2)
+        tv2?.setText(contacts?.number)
+        return view!!
     }
 }

@@ -1,21 +1,25 @@
 package com.example.login
 
-
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
 //    private val userName = "admin";
 //    private val Password = "test";
 
+//    private val adapter = AdapterContracts(this::onTitleClick)
+//    private fun onTitleClick(news: News, position: Int) {
+//        news.isExpanded = !news.isExpanded
+//        adapter.notifyItemChanged(position)
+//    }
+    private lateinit var newRecycleview : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,43 +34,13 @@ class MainActivity : AppCompatActivity() {
             .map { Contacts(rs?.getString(0).toString(),rs?.getString(1).toString()) }
             .toList()
 
-        var listViewProduct = findViewById<ListView>(R.id.listproduct)
-        var adapter = Contacts_adapter(this,android.R.layout.simple_list_item_1,list)
-        listViewProduct.adapter = adapter
-
-//
-//        btn.setOnClickListener {
-//            var x = 0
-//            if(rs?.moveToNext()!!){
-//                myIntent.putExtra(x.toString(),rs.getString(0) +" "+rs.getString(1))
-//                startActivity(myIntent)
-//                rs = rs.moveToNext()
-//                x++
-//            }
-//            setContentView(R.layout.secondview)
-//            val myIntent = Intent(this, SecondView::class.java)
-
-//            while(rs?.moveToNext()!!){
-//                myIntent.putExtra("key",)
-//            }
-
-//            myIntent.putExtra("key", readContact())
-//            startActivity(myIntent)
-//        }
-//            var messenger = ""
-//            var username = findViewById<ConstraintLayout>(R.id.Username) as EditText
-//            var password = findViewById<ConstraintLayout>(R.id.Password) as EditText
-//            if (username.text.toString() == userName && password.text.toString() == Password) {
-//                messenger = "Success"
-//                setContentView(R.layout.secondview)
-//            } else {
-//                messenger = "Fail"
-//            }
-//
-//            Toast.makeText(this@MainActivity, messenger, Toast.LENGTH_SHORT).show()
-
+        newRecycleview = findViewById(R.id.recyclerHero)
+        newRecycleview.layoutManager = LinearLayoutManager(this)
+        newRecycleview.setHasFixedSize(true)
+        newRecycleview.adapter = AdapterContracts(list)
 
     }
+
 
     var cols = listOf<String>(
         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
