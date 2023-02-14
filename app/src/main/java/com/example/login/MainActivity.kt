@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-//class Contacts(var name:String,var number:String)
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             .toList()
 
         var listViewProduct = findViewById<ListView>(R.id.listproduct)
-        var adapter = ArrayAdapter<Contacts>(this,android.R.layout.simple_list_item_1,list)
+        var adapter = Contacts_adapter(this,android.R.layout.simple_list_item_1,list)
         listViewProduct.adapter = adapter
 
 //
