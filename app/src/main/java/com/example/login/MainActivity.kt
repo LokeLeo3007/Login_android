@@ -1,58 +1,96 @@
 package com.example.login
 
+
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.provider.ContactsContract
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import com.example.login.databinding.ActivityMainBinding
+import androidx.core.app.ActivityCompat
+//class Contacts(var name:String,var number:String)
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+//    private val userName = "admin";
+//    private val Password = "test";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,Array(1){android.Manifest.permission.READ_CONTACTS},111)
+        }else readContact()
 
-        setSupportActionBar(binding.toolbar)
+        val rs = readContact()
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val list = generateSequence { if (rs?.moveToNext()!!) rs else null }
+            .map { Contacts(rs?.getString(0).toString(),rs?.getString(1).toString()) }
+            .toList()
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        var listViewProduct = findViewById<ListView>(R.id.listproduct)
+        var adapter = ArrayAdapter<Contacts>(this,android.R.layout.simple_list_item_1,list)
+        listViewProduct.adapter = adapter
+
+//
+//        btn.setOnClickListener {
+//            var x = 0
+//            if(rs?.moveToNext()!!){
+//                myIntent.putExtra(x.toString(),rs.getString(0) +" "+rs.getString(1))
+//                startActivity(myIntent)
+//                rs = rs.moveToNext()
+//                x++
+//            }
+//            setContentView(R.layout.secondview)
+//            val myIntent = Intent(this, SecondView::class.java)
+
+//            while(rs?.moveToNext()!!){
+//                myIntent.putExtra("key",)
+//            }
+
+//            myIntent.putExtra("key", readContact())
+//            startActivity(myIntent)
+//        }
+//            var messenger = ""
+//            var username = findViewById<ConstraintLayout>(R.id.Username) as EditText
+//            var password = findViewById<ConstraintLayout>(R.id.Password) as EditText
+//            if (username.text.toString() == userName && password.text.toString() == Password) {
+//                messenger = "Success"
+//                setContentView(R.layout.secondview)
+//            } else {
+//                messenger = "Fail"
+//            }
+//
+//            Toast.makeText(this@MainActivity, messenger, Toast.LENGTH_SHORT).show()
+
+
+    }
+
+    var cols = listOf<String>(
+        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+        ContactsContract.CommonDataKinds.Phone.NUMBER,
+        ContactsContract.CommonDataKinds.Phone._ID
+    ).toTypedArray()
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == 111 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            readContact()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+    private fun readContact() : Cursor? {
+        var rs = contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,cols,null,null,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+        return rs
     }
 }
