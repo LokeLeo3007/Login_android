@@ -1,5 +1,6 @@
 package com.example.login
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
@@ -15,17 +16,19 @@ class MainActivity : AppCompatActivity() {
 //    private val Password = "test";
 
 //    private val adapter = AdapterContracts(this::onTitleClick)
-//    private fun onTitleClick(news: News, position: Int) {
+//
+//    private fun onTitleClick(news: Contacts, position: Int) {
 //        news.isExpanded = !news.isExpanded
 //        adapter.notifyItemChanged(position)
 //    }
+
     private lateinit var newRecycleview : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,Array(1){android.Manifest.permission.READ_CONTACTS},111)
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,Array(1){ Manifest.permission.READ_CONTACTS},111)
         }else readContact()
 
         val rs = readContact()
