@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    tools:ignore="UselessParent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewPhone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -22,18 +19,50 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="RtlHardcoded" />
 
-        <TextView
-            android:id="@+id/textView2"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="top|left"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            tools:ignore="RtlHardcoded" />
+            android:id="@+id/contacts"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            app:layout_constraintStart_toStartOf="parent">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="top|left"
+                android:textColor="@android:color/black"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded" />
 
-</LinearLayout>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/btn_msg"
+                android:textSize="10dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/contacts_msg"
+                app:layout_constraintTop_toBottomOf="@+id/tvPhone"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="100dp"
+                android:id="@+id/btn_call"
+                android:text="@string/contacts_call"
+                android:textSize="10dp"
+                app:layout_constraintStart_toEndOf="@+id/btn_msg"
+                app:layout_constraintTop_toTopOf="@+id/btn_msg"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_msg"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

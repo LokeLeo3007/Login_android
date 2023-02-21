@@ -35,8 +35,13 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
     buildToolsVersion '30.0.3'
+
+    viewBinding {
+        enabled = true
+    }
 
 }
 
@@ -58,4 +63,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
 }

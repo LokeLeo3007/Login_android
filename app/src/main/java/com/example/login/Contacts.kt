@@ -1,3 +1,9 @@
 package com.example.login
 
-data class Contacts(var name:String,var number:String, var isExpanded: Boolean = false)
+import java.io.Serializable
+
+
+class Contacts(var name:String ?= null,var number:String ?= null, var isExpanded: Boolean = false) :
+    Serializable {
+
+}
